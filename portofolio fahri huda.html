@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ultra Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- CURSOR -->
+    <div class="cursor"></div>
+    <div class="cursor-glow"></div>
+
+    <!-- PARTICLE BACKGROUND -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- NAV -->
+    <nav>
+        <div class="logo">PORTFOLIO Fahri M.H.</div>
+
+        <div class="menu">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+        </div>
+
+        <button id="toggleMode">🌓</button>
+    </nav>
+
+    <!-- HERO -->
+    <header id="home">
+        <div class="hero parallax">
+            <p class="sub">Halo, saya</p>
+            <h1 class="title">Fahri Miftahul Huda</h1>
+            <p class="desc">Frontend Developer • UI Designer • Creative Builder</p>
+            <a href="#projects" class="btn">Lihat Karya</a>
+        </div>
+    </header>
+
+    <!-- ABOUT -->
+    <section id="about" class="reveal">
+        <h2 class="section-title">Tentang Saya</h2>
+
+        <div class="about parallax">
+
+            <!-- FOTO PROFILE -->
+            <img src="/img/profile.jpg" alt="Foto Saya" class="profile">
+
+            <div class="text">
+                Saya adalah seorang developer yang berfokus pada pembuatan website modern dengan tampilan premium dan
+                pengalaman pengguna yang elegan.
+                Saya menyukai desain minimalis bergaya Apple dan Tesla, dipadukan dengan animasi halus, efek interaktif,
+                serta antarmuka yang nyaman digunakan di berbagai perangkat.
+                Saya memiliki kemampuan dalam HTML, CSS, dan JavaScript untuk membangun website yang responsif, cepat,
+                dan menarik secara visual.
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="reveal">
+        <h2 class="section-title">Skills</h2>
+
+        <div class="skills">
+            <div class="card">HTML</div>
+            <div class="card">CSS</div>
+            <div class="card">JavaScript</div>
+            <div class="card">UI/UX</div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="reveal">
+        <h2 class="section-title">Projects</h2>
+
+        <div class="projects parallax">
+
+            <div class="project">
+                <img src="img/foto2.jpg">
+                <div class="overlay">Landing Page</div>
+            </div>
+
+            <div class="project">
+                <img src="img/foto3.jpg">
+                <div class="overlay">UI Design</div>
+            </div>
+
+            <div class="project">
+                <img src="img/foto4.jpg">
+                <div class="overlay">Dashboard</div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Ultra Portfolio</p>
+    </footer>
+
+    <!-- PARTICLE -->
+    <script>
+        const canvas = document.getElementById("particleCanvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+
+        for (let i = 0; i < 80; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 2,
+                dx: (Math.random() - 0.5) * 0.5,
+                dy: (Math.random() - 0.5) * 0.5
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(255,255,255,0.5)";
+
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+
+                p.x += p.dx;
+                p.y += p.dy;
+
+                if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+
+    <!-- CURSOR + SCROLL + MODE + PARALLAX -->
+    <script>
+        // CURSOR
+        const cursor = document.querySelector(".cursor");
+        const glow = document.querySelector(".cursor-glow");
+
+        document.addEventListener("mousemove", (e) => {
+            cursor.style.left = e.clientX + "px";
+            cursor.style.top = e.clientY + "px";
+
+            glow.style.left = e.clientX + "px";
+            glow.style.top = e.clientY + "px";
+        });
+
+        // RIPPLE CLICK
+        document.addEventListener("click", (e) => {
+            const ripple = document.createElement("span");
+            ripple.className = "ripple";
+            ripple.style.left = e.clientX + "px";
+            ripple.style.top = e.clientY + "px";
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+
+        // SCROLL REVEAL
+        const reveals = document.querySelectorAll(".reveal");
+
+        window.addEventListener("scroll", () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                if (top < window.innerHeight - 100) {
+                    el.classList.add("active");
+                }
+            });
+        });
+
+        // DARK / LIGHT MODE
+        document.getElementById("toggleMode").onclick = () => {
+            document.body.classList.toggle("light");
+        };
+
+        // PARALLAX
+        document.addEventListener("mousemove", (e) => {
+            document.querySelectorAll(".parallax").forEach(el => {
+                let speed = 20;
+                let x = (window.innerWidth - e.pageX) / speed;
+                let y = (window.innerHeight - e.pageY) / speed;
+                el.style.transform = `translate(${x}px,${y}px)`;
+            });
+        });
+    </script>
+    <section id="contact">
+        <h1>Contact</h1>
+
+        <div class="contact-box">
+            <p>Hubungi saya melalui WhatsApp:</p>
+
+            <a href="https://wa.me/6285784370414" target="_blank" class="wa-btn">
+                Chat WhatsApp
+            </a>
+        </div>
+    </section>
+</body>
+
+</html>
